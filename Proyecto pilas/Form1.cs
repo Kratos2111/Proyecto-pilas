@@ -17,13 +17,13 @@ namespace Proyecto_pilas
         {
             InitializeComponent();
         }
-        private Stack<String> Dir = new Stack<String>();
+        private Stack<string> Dir = new Stack<string>();
         private string convertToDir()
         {
             string a = "";
             foreach(string i in Dir)
             {
-                a = i + "\\";
+                a += i + "\\";
             }
             return a;
         }
@@ -31,13 +31,21 @@ namespace Proyecto_pilas
         {
             Dir.Push(txtFolder.Text);
             if (!Directory.Exists(convertToDir())){
-                Dir.Pop();
-                MessageBox.Show("El directorio no existe");
-                txtFolder.Text = "";
+                MessageBox.Show("El directorio no existe",convertToDir());
+                if(MessageBox.Show("Desea Crear el directorio", "Crear", MessageBoxButtons.YesNo) == DialogResult.No)
+                {
+                    Dir.Pop();
+                    txtFolder.Text = "";
+                }
+                else
+                {
+                    Directory.CreateDirectory(convertToDir());
+                }
+                
             }
             else
             {
-                lbDir.Items.Add(Convert.ToString(txtFolder.Text));
+                lbDir.Items.Add(txtFolder.Text);
                 txtFolder.Text = "";
             }
 
